@@ -1,5 +1,9 @@
 run.sh
 
+.DS_Store
+
+build/
+
 # Logs
 logs
 *.log

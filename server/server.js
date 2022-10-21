@@ -1,13 +1,15 @@
-var { Client } = require('pg');
-var express = require('express');
-var bodyParser = require('body-parser');
-const { v4: uuidv4 } = require('uuid');
+const { Client } = require('pg');
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path')
+const { v4: uuidv4 } = require('uuid')
 
-var app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+const app = express()
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+app.use(express.static(path.join(__dirname, '../app/build')))
 
-var client = new Client({
+const client = new Client({
     user: process.env.PG_USER,
     host: process.env.PG_HOST,
     database: process.env.PG_DATABASE,
@@ -16,7 +18,6 @@ var client = new Client({
 })
  
 client.connect()
-app.listen(3000)
 
 const authentication = async (req, res) => {
     var db = await client.query({
@@ -44,7 +45,7 @@ const authentication = async (req, res) => {
     return false
 }
 
-app.get('/account', async (req, res) => {
+app.get('/api/account', async (req, res) => {
     if(await authentication(req, res)) return
 
     var db = await client.query({
@@ -55,7 +56,7 @@ app.get('/account', async (req, res) => {
     res.send({name: db.rows[0].name})
 })
 
-app.post('/account', async (req, res) => {
+app.post('/api/account', async (req, res) => {
     var db = await client.query({
         text: 'SELECT id from users WHERE email=$1',
         values: [req.body.email],
@@ -83,7 +84,7 @@ app.post('/account', async (req, res) => {
     res.send({userid: userid, tokenid: tokenid})
 })
 
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
     var db = await client.query({
         text: 'SELECT id from users WHERE email=$1 AND pass=$2',
         values: [req.body.email, req.body.pass],
@@ -105,7 +106,7 @@ app.post('/login', async (req, res) => {
     res.send({userid: db.rows[0].id, tokenid: tokenid})
 })
 
-app.post('/test', (req, res) => {
+app.post('/api/test', (req, res) => {
     console.log(req.body)
     res.send(req.body)
 
@@ -115,3 +116,7 @@ app.post('/test', (req, res) => {
 
     console.log((new Date(Date.now())).toISOString());
 })
+
+app.get('*', (req, res) => {res.sendFile(path.join(__dirname, '../app/build/index.html'))})
+
+app.listen(8000)
