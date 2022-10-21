@@ -1,13 +1,16 @@
-const { Client } = require('pg');
-const express = require('express');
-const bodyParser = require('body-parser');
+const { Client } = require('pg')
+const express = require('express')
+const cors = require('cors')
+const bodyParser = require('body-parser')
 const path = require('path')
 const { v4: uuidv4 } = require('uuid')
 
 const app = express()
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, '../app/build')))
+app.use(cors())
 
 const client = new Client({
     user: process.env.PG_USER,
@@ -68,20 +71,20 @@ app.post('/api/account', async (req, res) => {
         return
     }
 
-    var userid = uuidv4()
-    var tokenid = uuidv4()
+    var id = uuidv4()
+    var token = uuidv4()
 
     await client.query({
         text: 'INSERT INTO users(id, email, pass, token, last) VALUES($1, $2, $3, $4, $5)',
-        values: [userid, req.body.email, req.body.pass, tokenid, (new Date(Date.now() + 3600000 * 9)).toISOString()],
+        values: [id, req.body.email, req.body.pass, token, (new Date(Date.now() + 3600000 * 9)).toISOString()],
     })
 
     await client.query({
         text: 'INSERT INTO user_info(id, name) VALUES($1, $2)',
-        values: [userid, req.body.name],
+        values: [id, req.body.name],
     })
 
-    res.send({userid: userid, tokenid: tokenid})
+    res.send({id: id, token: token})
 })
 
 app.post('/api/login', async (req, res) => {
@@ -96,14 +99,14 @@ app.post('/api/login', async (req, res) => {
         return
     }
 
-    var tokenid = uuidv4()
+    var token = uuidv4()
 
     await client.query({
         text: 'UPDATE users SET token=$1, last=$2 WHERE id=$3',
-        values: [tokenid, (new Date(Date.now() + 3600000 * 9)).toISOString(), db.rows[0].id],
+        values: [token, (new Date(Date.now() + 3600000 * 9)).toISOString(), db.rows[0].id],
     })
 
-    res.send({userid: db.rows[0].id, tokenid: tokenid})
+    res.send({id: db.rows[0].id, token: token})
 })
 
 app.post('/api/test', (req, res) => {
