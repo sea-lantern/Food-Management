@@ -27,7 +27,7 @@ const Register: React.FC = () => {
             body: JSON.stringify({email: email, pass: md5(pass1), name: name})
         }
 
-        const res = await fetch('http://localhost:8000/api/account', req)
+        const res = await fetch(process.env.REACT_APP_SHOST + '/api/account', req)
 
         if(!res.ok) return
         

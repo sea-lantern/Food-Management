@@ -4,6 +4,7 @@ run.sh
 
 build/
 
+nohup.out
 # Logs
 logs
 *.log

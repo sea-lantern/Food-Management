@@ -22,7 +22,7 @@ const Login: React.FC = () => {
             body: JSON.stringify({email: email, pass: md5(pass)})
         }
 
-        const res = await fetch('http://localhost:8000/api/login', req)
+        const res = await fetch(process.env.REACT_APP_SHOST + '/api/login', req)
         
         if(!res.ok) return
 

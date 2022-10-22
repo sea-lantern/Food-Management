@@ -9,7 +9,7 @@ import App from './pages/App'
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Navigate to="/login" replace={true} />,
+        element: <Navigate to="/management" replace={true} />,
     },
     {
         path: '/register',

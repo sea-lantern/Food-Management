@@ -28,7 +28,7 @@ const App: React.FC = () => {
                 token: token,
             })
 
-            const res = await fetch('http://localhost:8000/api/account?' + query, req)
+            const res = await fetch(process.env.REACT_APP_SHOST + '/api/account?' + query, req)
 
             if(!res.ok) navigate('/login')
 
