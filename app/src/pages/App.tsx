@@ -12,7 +12,10 @@ const App: React.FC = () => {
         const id = localStorage.getItem('id') || ''
         const token = localStorage.getItem('token') || ''
 
-        if(id === '' || token === '') navigate('/login')
+        if(id === '' || token === '') {
+            navigate('/login')
+            return
+        }
 
         setId(id)
         setToken(token)
@@ -30,7 +33,10 @@ const App: React.FC = () => {
 
             const res = await fetch(process.env.REACT_APP_SHOST + '/api/account?' + query, req)
 
-            if(!res.ok) navigate('/login')
+            if(!res.ok) {
+                navigate('/login')
+                return
+            }
 
             const data = await res.json()
 

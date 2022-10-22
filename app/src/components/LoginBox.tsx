@@ -101,7 +101,7 @@ const LoginBox: React.FC = () => {
             </Box>
 
             <Box sx={{mt: '50px'}}>
-                <Link to="/register">アカウントの作成はこちら</Link>
+                <Link to="/register" style={{ color: '#2bd52b' }}>アカウントの作成はこちら</Link>
             </Box>
         </>
     ), [loginF])

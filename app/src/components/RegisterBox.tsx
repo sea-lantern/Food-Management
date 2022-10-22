@@ -145,7 +145,7 @@ const RegisterBox: React.FC = () => {
             </Box>
 
             <Box sx={{mt: '50px'}}>
-                <Link to="/login">ログインはこちら</Link>
+                <Link to="/login" style={{ color: '#2bd52b' }}>ログインはこちら</Link>
             </Box>
         </>
     ), [registerF])

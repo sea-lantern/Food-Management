@@ -17,11 +17,6 @@ const Login: React.FC = () => {
             </Box>
             
             <LoginBox />
-
-            <div><Link to="/">ルート</Link></div>
-            <div><Link to="/login">ログイン</Link></div>
-            <div><Link to="/register">アカウント作成</Link></div>
-            <div><Link to="/management">管理</Link></div>
         </>
     ), [])
 
