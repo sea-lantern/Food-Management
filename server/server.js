@@ -29,13 +29,13 @@ const authentication = async (req, res) => {
     })
 
     if(db.rows.length === 0) {
-        res.status(401)
+        res.status(403)
         res.send({message: '無効な操作です。'})
         return true
     }
 
     if(3600000 * 24 * 30 < new Date(Date.now()) - db.rows[0].last) {
-        res.status(401)
+        res.status(403)
         res.send({message: 'ログインセッションが切れました。'})
         return true
     }
@@ -66,7 +66,7 @@ app.post('/api/account', async (req, res) => {
     })
 
     if(db.rows.length !== 0) {
-        res.status(400)
+        res.status(403)
         res.send({message: '既に登録されているメールアドレスです。'})
         return
     }
@@ -94,7 +94,7 @@ app.post('/api/login', async (req, res) => {
     })
 
     if(db.rows.length === 0) {
-        res.status(401)
+        res.status(403)
         res.send({message: 'ログインに失敗しました。'})
         return
     }
