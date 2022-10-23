@@ -36,7 +36,17 @@ const LoginBox: React.FC = () => {
         const email = (emailRef.current && emailRef.current.value) || ''
         const pass = (passRef.current && passRef.current.value) || ''
 
-        if(email === '' || pass === '') return
+        let error = false
+
+        if(email === '' || pass === '') {
+            setMessages(m => [...m, '入力されていない項目があります。'])
+            error = true
+        }
+
+        if(error) {
+            if(passRef.current) passRef.current.value = ''
+            return
+        }
 
         const req = {
             method: 'POST',

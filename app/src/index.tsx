@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import Register from 'pages/Register'
 import Login from 'pages/Login'
 import App from 'pages/App'
+import Storage from 'pages/Storage'
 
 const router = createBrowserRouter([
     {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
     {
         path: '/management',
         element: <App />,
+    },
+    {
+        path: '/storage',
+        element: <Storage />,
     },
 ])
 
