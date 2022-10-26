@@ -1,6 +1,8 @@
 import React, { useEffect, useState }  from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+import HeaderBar from 'components/HeaderBar'
+
 const App: React.FC = () => {
     const navigate = useNavigate()
 
@@ -13,7 +15,7 @@ const App: React.FC = () => {
         const token = localStorage.getItem('token') || ''
 
         if(id === '' || token === '') {
-            navigate('/login')
+            //navigate('/login')
             return
         }
 
@@ -45,7 +47,8 @@ const App: React.FC = () => {
     }, [navigate])
 
     return (
-        <div>
+        <>
+            <HeaderBar name='献立管理' jumpTo='/storage' jumpToName='食材管理' badgeCount={10} />
             <p>Hello, {name}</p>
             <p>ID, {id}</p>
             <p>TOKEN, {token}</p>
@@ -54,7 +57,7 @@ const App: React.FC = () => {
             <div><Link to="/login">ログイン</Link></div>
             <div><Link to="/register">アカウント作成</Link></div>
             <div><Link to="/management">管理</Link></div>
-        </div>
+        </>
     )
 }
 

@@ -1,5 +1,10 @@
 import React, { useEffect, useState }  from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { Box } from '@mui/material'
+
+import HeaderBar from 'components/HeaderBar'
+import Ingredient from 'components/Ingredient'
+import Seasoning from 'components/Seasoning'
 
 const Storage: React.FC = () => {
     const navigate = useNavigate()
@@ -13,7 +18,7 @@ const Storage: React.FC = () => {
         const token = localStorage.getItem('token') || ''
 
         if(id === '' || token === '') {
-            navigate('/login')
+            //navigate('/login')
             return
         }
 
@@ -45,16 +50,14 @@ const Storage: React.FC = () => {
     }, [navigate])
 
     return (
-        <div>
-            <p>Hello, {name}</p>
-            <p>ID, {id}</p>
-            <p>TOKEN, {token}</p>
+        <>
+            <HeaderBar name="食材管理" jumpTo='/management' jumpToName='献立管理' badgeCount={0} />
 
-            <div><Link to="/">ルート</Link></div>
-            <div><Link to="/login">ログイン</Link></div>
-            <div><Link to="/register">アカウント作成</Link></div>
-            <div><Link to="/management">管理</Link></div>
-        </div>
+            <Box sx={{mx: '25px', my: '50px', display: 'flex', height: '700px'}}>
+                <Ingredient />
+                <Seasoning />
+            </Box>
+        </>
     )
 }
 
