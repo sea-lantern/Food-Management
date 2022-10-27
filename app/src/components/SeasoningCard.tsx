@@ -1,5 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import { Card, CardContent, Slider, Typography, Stack, styled } from '@mui/material'
+import { Card, CardContent, Slider, Typography, Stack, styled, IconButton, Box } from '@mui/material'
+
+import DeleteIcon from '@mui/icons-material/Delete'
 
 const Pb0Card = styled(CardContent)({
     '&: last-child': {
@@ -38,18 +40,25 @@ const SeasoningCard: React.FC<{ name: string, initAmount: number, term: string }
     return (
         <Card sx={{ borderRadius: "20px", boxShadow: 0, backgroundColor: color,  m: '10px', pb: 0 }}>
             <Pb0Card sx={{ pb: 0 }}>
-                <Stack spacing={2} direction="row" alignItems="center" sx={{display: 'flex'}}>
-                    <Typography sx={{ fontSize: 14, flexGrow: 1 }} >
-                        {name}
-                    </Typography>
-                    <Typography sx={{ fontSize: 14, flexGrow: 0 }} >
-                        {amount}%
-                    </Typography>
-                    <Typography sx={{ fontSize: 14, flexGrow: 0 }} >
-                        {term}
-                    </Typography>
-                </Stack>
-                <CssSlider value={amount} aria-label="Default" valueLabelDisplay="auto" onChange={handleSliderChange}/>
+                <Box sx={{ display: 'flex' }}>
+                    <Box sx={{ flexGrow: 1 }}>
+                        <Stack spacing={2} direction="row" alignItems="center" sx={{ display: 'flex' }}>
+                            <Typography sx={{ fontSize: 14, flexGrow: 1 }} >
+                                {name}
+                            </Typography>
+                            <Typography sx={{ fontSize: 14, flexGrow: 0 }} >
+                                {amount}%
+                            </Typography>
+                            <Typography sx={{ fontSize: 14, flexGrow: 0 }} >
+                                {term}
+                            </Typography>
+                        </Stack>
+                        <CssSlider value={amount} aria-label="Default" valueLabelDisplay="auto" onChange={handleSliderChange} />
+                    </Box>
+                    <IconButton>
+                        <DeleteIcon />
+                    </IconButton>
+                </Box>
             </Pb0Card>
         </Card>
     )

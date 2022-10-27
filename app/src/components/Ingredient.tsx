@@ -11,7 +11,7 @@ const Ingredient: React.FC = () => {
             </Typography>
 
             <Box sx={{ height: '80%', bgcolor: 'white', mx: '20px', boxShadow: 2, overflow: 'auto' }}>
-                <IngredientCard name='test' initAmount={55} term='2022/10/1' />
+                <IngredientCard name='test' initAmount={3} term='2022/10/1' />
             </Box>
         </Box>
     )
