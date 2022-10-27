@@ -11,18 +11,6 @@ const Pb0Card = styled(CardContent)({
     }
 })
 
-const CssSlider = styled(Slider)({
-    color: '#2bd52b',
-    '& .MuiSlider-thumb': {
-        '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
-            boxShadow: 'inherit',
-        }
-    },
-    '& .MuiSlider-valueLabel': {
-        display: 'none',
-    }
-})
-
 const IngredientCard: React.FC<{ name: string, initAmount: number, term: string }> = ({ name, initAmount, term }) => {
     const [amount, setAmount] = useState<number>(0)
     const [color, setColor] = useState<string>('#dcf8f8')
