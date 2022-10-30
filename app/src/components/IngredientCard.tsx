@@ -1,41 +1,28 @@
-import React, { useCallback, useState, useEffect } from 'react'
-import { Card, CardContent, Slider, Typography, Stack, styled, IconButton } from '@mui/material'
+import React, { useEffect, useRef } from 'react'
+import { Card, CardContent, Typography, Stack, styled, IconButton, TextField, Box } from '@mui/material'
 
-import AddIcon from '@mui/icons-material/Add'
-import RemoveIcon from '@mui/icons-material/Remove'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 const Pb0Card = styled(CardContent)({
     '&: last-child': {
-        'padding-bottom': '16px'
+        'paddingBottom': '16px'
     }
 })
 
-const IngredientCard: React.FC<{ name: string, initAmount: number, term: string }> = ({ name, initAmount, term }) => {
-    const [amount, setAmount] = useState<number>(0)
-    const [color, setColor] = useState<string>('#dcf8f8')
+const IngredientCard: React.FC<{
+    index: number,
+    name: string,
+    amount: number,
+    updateF: (index: number, name: string, amount: string) => void,
+    deleteF: (index: number, name: string) => void
+}> = React.memo(({ index, name, amount, updateF, deleteF }) => {
+    const amountRef = useRef<HTMLInputElement>()
 
-    const handlePlusAmount = () => {
-        setAmount(prev => {
-            if (prev + 1 < 0) setColor('#ffd5d5')
-            else setColor('#dcf8f8')
-            return prev + 1
-        })
-    }
-
-    const handleMinusAmount = () => {
-        setAmount(prev => {
-            if (prev - 1 < 0) setColor('#ffd5d5')
-            else setColor('#dcf8f8')
-            return prev - 1
-        })
-    }
+    const color = amount < 0 ? '#ffd5d5' : '#dcf8f8'
 
     useEffect(() => {
-        if (initAmount < 0) setColor('#ffd5d5')
-        else setColor('#dcf8f8')
-        setAmount(initAmount)
-    }, [])
+        if(amountRef.current) amountRef.current.value = String(amount)
+    }, [amount, amountRef])
 
     return (
         <Card sx={{ borderRadius: "20px", boxShadow: 0, m: '10px', bgcolor: color, pb: 0 }}>
@@ -44,25 +31,23 @@ const IngredientCard: React.FC<{ name: string, initAmount: number, term: string 
                     <Typography sx={{ fontSize: 14, flexGrow: 1 }} >
                         {name}
                     </Typography>
-                    <Typography sx={{ fontSize: 14, flexGrow: 0 }} >
-                        <IconButton onClick={handleMinusAmount}>
-                            <RemoveIcon />
-                        </IconButton>
-                        {amount}
-                        <IconButton onClick={handlePlusAmount}>
-                            <AddIcon />
-                        </IconButton>
-                    </Typography>
-                    <Typography sx={{ fontSize: 14, flexGrow: 0 }} >
-                        {term}
-                    </Typography>
-                    <IconButton>
+                    <Box sx={{ flexGrow: 0 }}>
+                        <TextField
+                            id={name}
+                            type="number"
+                            sx={{ width: '50px' }}
+                            variant="standard"
+                            inputRef={amountRef}
+                            onChange={e => updateF(index, name, e.target.value)}
+                        />
+                    </Box>
+                    <IconButton onClick={() => deleteF(index, name)}>
                         <DeleteIcon />
                     </IconButton>
                 </Stack>
             </Pb0Card>
         </Card>
     )
-}
+})
 
 export default IngredientCard

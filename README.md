@@ -12,7 +12,7 @@ create table users(id text, email text, pass text, token text, last timestamp);
 create table user_info(id text, name text);
 
 create table menu(id text, userid text, name text, time smallint, date date);
-create table foods(userid text, name text, type smallint, amount smallint, term timestamp);
+create table foods(userid text, name text, type smallint, amount smallint, term date);
 create table materials(menuid text, name text, amount smallint);
 
 delete from users;

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AppBar, Toolbar, IconButton, Box, Menu, MenuItem, Typography, Badge, Button } from '@mui/material'
 
 import MenuIcon from '@mui/icons-material/Menu'
@@ -21,7 +21,7 @@ const Header: React.FC<{ name: string, jumpTo: string, jumpToName: string, badge
 
     const handleFoodStrageButton = useCallback(() => {
         navigate(jumpTo)
-    }, [navigate])
+    }, [navigate, jumpTo])
 
     return (
         <AppBar position="static" sx={{ bgcolor: "#2bd52b" }}>

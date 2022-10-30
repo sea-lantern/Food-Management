@@ -15,7 +15,7 @@ const App: React.FC = () => {
         const token = localStorage.getItem('token') || ''
 
         if(id === '' || token === '') {
-            //navigate('/login')
+            navigate('/login')
             return
         }
 

@@ -38,6 +38,8 @@ const LoginBox: React.FC = () => {
 
         let error = false
 
+        setMessages([])
+
         if(email === '' || pass === '') {
             setMessages(m => [...m, '入力されていない項目があります。'])
             error = true

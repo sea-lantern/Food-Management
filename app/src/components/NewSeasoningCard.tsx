@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { Dispatch, useCallback, useRef, useState } from 'react'
 import { Card, CardContent, Slider, Typography, Stack, styled, IconButton, Box, TextField } from '@mui/material'
 
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 const Pb0Card = styled(CardContent)({
@@ -21,56 +22,56 @@ const CssSlider = styled(Slider)({
     }
 })
 
-const SeasoningCard: React.FC<{
-    index: number,
-    name: string,
-    amount: number,
-    term: string,
-    updateF: (index: number, name: string, amount: number) => void,
-    deleteF: (index: number, name: string) => void
-}> = React.memo(({ index, name, amount, term, updateF, deleteF }) => {
-    const [vamount, setVamount] = useState<number>(0)
+const NewSeasoningCard: React.FC<{
+    addF: (name: string, amount: string, term: string) => void,
+    setNewFlag: Dispatch<boolean>
+}> = ({ addF, setNewFlag }) => {
+    const nameRef = useRef<HTMLInputElement>()
+    const termRef = useRef<HTMLInputElement>()
+
+    const [vamount, setVamount] = useState<number>(100)
 
     const sliderC = useCallback((event: any, value: number | number[]) => {
         typeof value === 'number' && setVamount(value)
     }, [])
 
-    const sliderCU = useCallback((event: any, value: number | number[]) => {
-        typeof value === 'number' && updateF(index, name, value)
-    }, [index, name, updateF])
-
-    const color = amount < 20 ? '#ffd5d5' : '#dcf8f8'
-
-    useEffect(() => setVamount(amount), [amount])
-
     return (
-        <Card sx={{ borderRadius: "20px", boxShadow: 0, backgroundColor: color,  m: '10px', pb: 0 }}>
+        <Card sx={{ borderRadius: "20px", boxShadow: 0, backgroundColor: '#dcf8f8', m: '10px', pb: 0 }}>
             <Pb0Card sx={{ pb: 0 }}>
                 <Box sx={{ display: 'flex' }}>
+                    <IconButton onClick={() => addF(nameRef.current?.value || '', String(vamount), termRef.current?.value.replaceAll('-', '/') || '')}>
+                        <AddCircleOutlineIcon />
+                    </IconButton>
                     <Box sx={{ flexGrow: 1 }}>
                         <Stack spacing={2} direction="row" alignItems="center" sx={{ display: 'flex' }}>
-                            <Typography sx={{ fontSize: 14, flexGrow: 1 }} >
-                                {name}
-                            </Typography>
+                            <Box sx={{ flexGrow: 1 }}>
+                                <TextField
+                                    variant="standard"
+                                    placeholder="名前"
+                                    inputRef={nameRef}
+                                />
+                            </Box>
                             <Typography sx={{ fontSize: 14, flexGrow: 0 }} >
                                 {vamount}%
                             </Typography>
                             <TextField
+                                id="margin-none"
                                 sx={{ flexGrow: 0, height: '50px' }}
                                 type="date"
                                 label="消費期限"
-                                defaultValue={term.replaceAll('/', '-')}
+                                inputRef={termRef}
+                                defaultValue="2000-01-01"
                             />
                         </Stack>
-                        <CssSlider value={vamount} aria-label="Default" valueLabelDisplay="auto" onChange={sliderC} onChangeCommitted={sliderCU} />
+                        <CssSlider value={vamount} aria-label="Default" valueLabelDisplay="auto" onChange={sliderC} />
                     </Box>
-                    <IconButton onClick={() => deleteF(index, name)}>
+                    <IconButton onClick={() => setNewFlag(false)}>
                         <DeleteIcon />
                     </IconButton>
                 </Box>
             </Pb0Card>
         </Card>
     )
-})
+}
 
-export default SeasoningCard
+export default NewSeasoningCard

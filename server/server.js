@@ -297,14 +297,18 @@ app.delete('/api/materials', async (req, res) => {
 ///////////
 const returnFoodData = async (req, res) => {
     const db = await client.query({
-        text: 'SELECT name, type, amount, term from foods WHERE userid=$1',
+        text: 'SELECT name, type, amount, term from foods WHERE userid=$1 ORDER BY name ASC',
         values: [req.query.id],
     })
 
     const foods = {1: [], 2: []}
 
     for(row of db.rows){
-        foods[row.type].push({name: row.name, amount: row.amount, term: row.term.toLocaleString()})
+        const year = row.term.getFullYear().toString().padStart(4, '0')
+        const month = (row.term.getMonth() + 1).toString().padStart(2, '0')
+        const day = row.term.getDate().toString().padStart(2, '0')
+        const dateText = year + '/' + month + '/' + day
+        foods[row.type].push({name: row.name, amount: row.amount, term: dateText})
     }
 
     res.send({foods: foods})
@@ -319,7 +323,7 @@ app.get('/api/foods', async (req, res) => {
 app.post('/api/foods', async (req, res) => {
     if(await authentication(req, res)) return
 
-    if(!req.body.name || !req.body.type || !req.body.amount) {
+    if(!req.query.name || !req.body.type || !req.body.amount) {
         await validationError(res)
         return
     }
@@ -328,13 +332,17 @@ app.post('/api/foods', async (req, res) => {
         await validationError(res)
         return
     }
+    
+    if(req.body.type === 1) {
+        req.body.term = '2000/01/01'
+    }
 
     await client.query({
         text: 'INSERT INTO foods(userid, name, type, amount, term) VALUES($1, $2, $3, $4, $5)',
-        values: [req.query.id, req.body.name, req.body.type, req.body.amount, req.body.term],
+        values: [req.query.id, req.query.name, req.body.type, req.body.amount, req.body.term],
     })
 
-    returnFoodData(req, res)
+    res.send()
 })
 
 app.put('/api/foods', async (req, res) => {
@@ -350,7 +358,7 @@ app.put('/api/foods', async (req, res) => {
         values: [req.body.amount, req.query.id, req.query.name],
     })
 
-    returnFoodData(req, res)
+    res.send()
 })
 
 app.delete('/api/foods', async (req, res) => {
@@ -366,7 +374,7 @@ app.delete('/api/foods', async (req, res) => {
         values: [req.query.id, req.query.name],
     })
 
-    returnFoodData(req, res)
+    res.send()
 })
 
 app.get('*', (req, res) => {res.sendFile(path.join(__dirname, '../app/build/index.html'))})
