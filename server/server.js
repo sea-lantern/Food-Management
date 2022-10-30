@@ -152,7 +152,7 @@ const returnMenuData = async (req, res) => {
     }
 
     for(row of db.rows){
-        menu[row.date.getDate() - 1].push({id: row.id, name: row.name, type: row.time})
+        menu[row.date.getDate() - 1].push({id: row.id, name: row.name, time: row.time})
     }
 
     res.send({menu: menu})

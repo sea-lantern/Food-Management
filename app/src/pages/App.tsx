@@ -1,14 +1,22 @@
-import React, { useEffect, useState }  from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useCallback, useEffect, useState }  from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Box } from '@mui/material'
 
 import HeaderBar from 'components/HeaderBar'
+import Calendar from 'components/Calendar'
+import Menu from 'components/Menu'
 
 const App: React.FC = () => {
     const navigate = useNavigate()
 
     const [id, setId] = useState<string>('')
     const [token, setToken] = useState<string>('')
-    const [name, setName] = useState<string>('')
+
+    const [year, setYear] = useState<Number>(0)
+    const [month, setMonth] = useState<Number>(0)
+    const [day, setDay] = useState<Number>(0)
+
+    const [menu, setMenu] = useState<{[key: number]: {name: string, time: number, id: string}[]}>({})
 
     useEffect(() => {
         const id = localStorage.getItem('id') || ''
@@ -18,10 +26,31 @@ const App: React.FC = () => {
             navigate('/login')
             return
         }
-
+        
         setId(id)
         setToken(token)
 
+        const now = new Date()
+        
+        setYear(now.getFullYear())
+        setMonth(now.getMonth() + 1)
+        setDay(now.getDay())
+    }, [navigate])
+
+    const selectDate = useCallback((date: Date) => {
+        setYear(date.getFullYear())
+        setMonth(date.getMonth() + 1)
+        setDay(date.getDay())
+    }, [])
+
+    const changeDate = useCallback((date: Date) => {
+        setYear(date.getFullYear())
+        setMonth(date.getMonth() + 1)
+        setDay(date.getDay())
+    }, [])
+
+    useEffect(() => {
+        if(!id || !token || !year || !month) return
         ;(async() => {
             const req = {
                 method: 'GET',
@@ -31,9 +60,11 @@ const App: React.FC = () => {
             const query = new URLSearchParams({
                 id: id,
                 token: token,
+                year: String(year),
+                month: String(month)
             })
 
-            const res = await fetch(process.env.REACT_APP_SHOST + '/api/account?' + query, req)
+            const res = await fetch(process.env.REACT_APP_SHOST + '/api/menu?' + query, req)
 
             if(!res.ok) {
                 navigate('/login')
@@ -42,21 +73,18 @@ const App: React.FC = () => {
 
             const data = await res.json()
 
-            setName(data?.name)
+            setMenu(data?.menu)
         })()
-    }, [navigate])
+    }, [navigate, id, token, year, month])
 
     return (
         <>
             <HeaderBar name='献立管理' jumpTo='/storage' jumpToName='食材管理' badgeCount={10} />
-            <p>Hello, {name}</p>
-            <p>ID, {id}</p>
-            <p>TOKEN, {token}</p>
 
-            <div><Link to="/">ルート</Link></div>
-            <div><Link to="/login">ログイン</Link></div>
-            <div><Link to="/register">アカウント作成</Link></div>
-            <div><Link to="/management">管理</Link></div>
+            <Box sx={{mx: '25px', my: '50px', display: 'flex' }}>
+                <Calendar menu={menu} ym={String(year)+'-'+String(month).padStart(2, '0')} changeDate={changeDate} selectDate={selectDate} />
+                <Menu id={id} token={token} />
+            </Box>
         </>
     )
 }

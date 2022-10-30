@@ -40,7 +40,7 @@ const Storage: React.FC = () => {
 
             const query = new URLSearchParams({
                 id: id,
-                token: token,
+                token: token
             })
 
             const res = await fetch(process.env.REACT_APP_SHOST + '/api/foods?' + query, req)
@@ -61,10 +61,8 @@ const Storage: React.FC = () => {
             <HeaderBar name="食材管理" jumpTo='/management' jumpToName='献立管理' badgeCount={0} />
 
             <Box sx={{mx: '25px', my: '50px', display: 'flex', height: '700px'}}>
-                <>
-                    <Ingredient id={id} token={token} data={foods[1]}/>
-                    <Seasoning id={id} token={token} data={foods[2]}/>
-                </>
+                <Ingredient id={id} token={token} data={foods[1]}/>
+                <Seasoning id={id} token={token} data={foods[2]}/>
             </Box>
         </>
     )
