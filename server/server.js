@@ -339,7 +339,7 @@ app.post('/api/foods', async (req, res) => {
 
     await client.query({
         text: 'INSERT INTO foods(userid, name, type, amount, term) VALUES($1, $2, $3, $4, $5)',
-        values: [req.query.id, req.query.name, req.body.type, req.body.amount, req.body.term],
+        values: [req.query.id, req.query.name, req.body.type, parseInt(req.body.amount), req.body.term],
     })
 
     res.send()
@@ -355,7 +355,7 @@ app.put('/api/foods', async (req, res) => {
 
     await client.query({
         text: 'UPDATE foods set amount=$1 WHERE userid=$2 AND name=$3',
-        values: [req.body.amount, req.query.id, req.query.name],
+        values: [parseInt(req.body.amount), req.query.id, req.query.name],
     })
 
     res.send()
