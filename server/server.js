@@ -348,14 +348,14 @@ app.post('/api/foods', async (req, res) => {
 app.put('/api/foods', async (req, res) => {
     if(await authentication(req, res)) return
 
-    if(!req.query.name || !req.body.amount) {
+    if(!req.query.name || !req.body.amount || !req.body.term) {
         await validationError(res)
         return
     }
 
     await client.query({
-        text: 'UPDATE foods set amount=$1 WHERE userid=$2 AND name=$3',
-        values: [parseInt(req.body.amount), req.query.id, req.query.name],
+        text: 'UPDATE foods set amount=$1, term=$2 WHERE userid=$3 AND name=$4',
+        values: [parseInt(req.body.amount), req.body.term, req.query.id, req.query.name],
     })
 
     res.send()

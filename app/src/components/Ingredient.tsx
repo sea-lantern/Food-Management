@@ -62,7 +62,7 @@ const Ingredient: React.FC<{ id: string, token: string, data: foodT[] }> = ({ id
             const req = {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({amount: amount})
+                body: JSON.stringify({amount: amount, term: '2000/01/01'})
             }
 
             const query = new URLSearchParams({

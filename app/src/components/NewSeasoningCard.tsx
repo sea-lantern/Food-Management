@@ -35,6 +35,11 @@ const NewSeasoningCard: React.FC<{
         typeof value === 'number' && setVamount(value)
     }, [])
 
+    const now = new Date()
+    const year = now.getFullYear().toString().padStart(4, '0')
+    const month = (now.getMonth() + 1).toString().padStart(2, '0')
+    const day = now.getDate().toString().padStart(2, '0')
+
     return (
         <Card sx={{ borderRadius: "20px", boxShadow: 0, backgroundColor: '#dcf8f8', m: '10px', pb: 0 }}>
             <Pb0Card sx={{ pb: 0 }}>
@@ -60,7 +65,7 @@ const NewSeasoningCard: React.FC<{
                                 type="date"
                                 label="消費期限"
                                 inputRef={termRef}
-                                defaultValue="2000-01-01"
+                                defaultValue={year + '-' + month + '-' + day}
                             />
                         </Stack>
                         <CssSlider value={vamount} aria-label="Default" valueLabelDisplay="auto" onChange={sliderC} />

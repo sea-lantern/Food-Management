@@ -26,22 +26,31 @@ const SeasoningCard: React.FC<{
     name: string,
     amount: number,
     term: string,
-    updateF: (index: number, name: string, amount: number) => void,
+    updateF: (index: number, name: string, amount: number, term: string) => void,
     deleteF: (index: number, name: string) => void
 }> = React.memo(({ index, name, amount, term, updateF, deleteF }) => {
     const [vamount, setVamount] = useState<number>(0)
+    const [vterm, setVterm] = useState<string>('2000-01-01')
 
     const sliderC = useCallback((event: any, value: number | number[]) => {
         typeof value === 'number' && setVamount(value)
     }, [])
 
-    const sliderCU = useCallback((event: any, value: number | number[]) => {
-        typeof value === 'number' && updateF(index, name, value)
-    }, [index, name, updateF])
+    const sliderCU = (event: any, value: number | number[]) => {
+        typeof value === 'number' && updateF(index, name, value, vterm)
+    }
+
+    const termCU = (event: any) => {
+        setVterm(event.target.value)
+        updateF(index, name, vamount, event.target.value)
+    }
 
     const color = amount < 20 ? '#ffd5d5' : '#dcf8f8'
 
-    useEffect(() => setVamount(amount), [amount])
+    useEffect(() => {
+        setVamount(amount)
+        setVterm(term)
+    }, [amount, term])
 
     return (
         <Card sx={{ borderRadius: "20px", boxShadow: 0, backgroundColor: color,  m: '10px', pb: 0 }}>
@@ -60,6 +69,7 @@ const SeasoningCard: React.FC<{
                                 type="date"
                                 label="消費期限"
                                 defaultValue={term.replaceAll('/', '-')}
+                                onChange={termCU}
                             />
                         </Stack>
                         <CssSlider value={vamount} aria-label="Default" valueLabelDisplay="auto" onChange={sliderC} onChangeCommitted={sliderCU} />

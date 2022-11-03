@@ -51,10 +51,11 @@ const Seasoning: React.FC<{ id: string, token: string, data: foodT[]}> = ({ id, 
         })()
     }, [navigate, id, token])
 
-    const updateF = useCallback((index: number, name: string, amount: number) => {
+    const updateF = useCallback((index: number, name: string, amount: number, term: string) => {
         setFood(prev => {
             let after = prev.concat()
             after[index].amount = amount
+            after[index].term = term
             return after
         })
 
@@ -62,7 +63,7 @@ const Seasoning: React.FC<{ id: string, token: string, data: foodT[]}> = ({ id, 
             const req = {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({amount: amount})
+                body: JSON.stringify({amount: amount, term: term})
             }
 
             const query = new URLSearchParams({
