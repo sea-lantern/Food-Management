@@ -12,9 +12,9 @@ const App: React.FC = () => {
     const [id, setId] = useState<string>('')
     const [token, setToken] = useState<string>('')
 
-    const [year, setYear] = useState<Number>(0)
-    const [month, setMonth] = useState<Number>(0)
-    const [day, setDay] = useState<Number>(0)
+    const [year, setYear] = useState<number>(0)
+    const [month, setMonth] = useState<number>(0)
+    const [day, setDay] = useState<number>(0)
 
     const [menu, setMenu] = useState<{[key: number]: {name: string, time: number, id: string}[]}>({})
 
@@ -34,19 +34,19 @@ const App: React.FC = () => {
         
         setYear(now.getFullYear())
         setMonth(now.getMonth() + 1)
-        setDay(now.getDay())
+        setDay(now.getDate())
     }, [navigate])
 
     const selectDate = useCallback((date: Date) => {
         setYear(date.getFullYear())
         setMonth(date.getMonth() + 1)
-        setDay(date.getDay())
+        setDay(date.getDate())
     }, [])
 
     const changeDate = useCallback((date: Date) => {
         setYear(date.getFullYear())
         setMonth(date.getMonth() + 1)
-        setDay(date.getDay())
+        setDay(date.getDate())
     }, [])
 
     useEffect(() => {
@@ -83,7 +83,7 @@ const App: React.FC = () => {
 
             <Box sx={{mx: '25px', my: '50px', display: 'flex' }}>
                 <Calendar menu={menu} ym={String(year)+'-'+String(month).padStart(2, '0')} changeDate={changeDate} selectDate={selectDate} />
-                <Menu id={id} token={token} />
+                {day && <Menu menu={menu[day-1]} day={String(day)} />}
             </Box>
         </>
     )

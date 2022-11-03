@@ -1,7 +1,7 @@
 import React, { Dispatch, useCallback, useRef, useState } from 'react'
 import { Card, CardContent, Slider, Typography, Stack, styled, IconButton, Box, TextField } from '@mui/material'
 
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 const Pb0Card = styled(CardContent)({
@@ -39,8 +39,8 @@ const NewSeasoningCard: React.FC<{
         <Card sx={{ borderRadius: "20px", boxShadow: 0, backgroundColor: '#dcf8f8', m: '10px', pb: 0 }}>
             <Pb0Card sx={{ pb: 0 }}>
                 <Box sx={{ display: 'flex' }}>
-                    <IconButton onClick={() => addF(nameRef.current?.value || '', String(vamount), termRef.current?.value.replaceAll('-', '/') || '')}>
-                        <AddCircleOutlineIcon />
+                    <IconButton sx={{my: 'auto', width: '40px', height: '40px'}} onClick={() => addF(nameRef.current?.value || '', String(vamount), termRef.current?.value.replaceAll('-', '/') || '')}>
+                        <CheckBoxIcon />
                     </IconButton>
                     <Box sx={{ flexGrow: 1 }}>
                         <Stack spacing={2} direction="row" alignItems="center" sx={{ display: 'flex' }}>
@@ -65,7 +65,7 @@ const NewSeasoningCard: React.FC<{
                         </Stack>
                         <CssSlider value={vamount} aria-label="Default" valueLabelDisplay="auto" onChange={sliderC} />
                     </Box>
-                    <IconButton onClick={() => setNewFlag(false)}>
+                    <IconButton sx={{my: 'auto', width: '40px', height: '40px'}} onClick={() => setNewFlag(false)}>
                         <DeleteIcon />
                     </IconButton>
                 </Box>

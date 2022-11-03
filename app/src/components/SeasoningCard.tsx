@@ -64,7 +64,7 @@ const SeasoningCard: React.FC<{
                         </Stack>
                         <CssSlider value={vamount} aria-label="Default" valueLabelDisplay="auto" onChange={sliderC} onChangeCommitted={sliderCU} />
                     </Box>
-                    <IconButton onClick={() => deleteF(index, name)}>
+                    <IconButton sx={{my: 'auto', width: '40px', height: '40px'}} onClick={() => deleteF(index, name)}>
                         <DeleteIcon />
                     </IconButton>
                 </Box>

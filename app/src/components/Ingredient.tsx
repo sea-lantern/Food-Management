@@ -111,13 +111,17 @@ const Ingredient: React.FC<{ id: string, token: string, data: foodT[] }> = ({ id
     useEffect(() => setFood(data), [data])
 
     return (
-        <Box sx={{ height: '80%', width: '50%', mx: '25px' }}>
-            <Typography variant="h4" component="div" sx={{ mb: '20px', textAlign: 'center', fontWeight: 'bold' }}>
-                食材
-                <IconButton sx={{ bgcolor: 'white', boxShadow: 2 }} onClick={() => setNewFlag(true)}>
+        <Box sx={{ height: '80%', width: '50%', mx: '25px'}}>
+            <Box sx={{display: 'flex', mx: '25px'}}>
+                <Typography variant="h4" component="div" sx={{ mb: '20px', fontWeight: 'bold' }}>
+                    食材
+                </Typography>
+                
+                <Box sx={{flexGrow: 1}}/>
+                <IconButton sx={{ bgcolor: 'white', boxShadow: 2, flexGrow:0, width: '50px', height: '50px' }} onClick={() => setNewFlag(true)}>
                     <AddIcon />
                 </IconButton>
-            </Typography>
+            </Box>
 
             <Box sx={{ height: '80%', bgcolor: 'white', mx: '20px', boxShadow: 2, overflow: 'auto' }}>
                 {newFlag && <NewIngredientCard key={'NewIngredient'} addF={addF} setNewFlag={setNewFlag} />}

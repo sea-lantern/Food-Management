@@ -15,7 +15,7 @@ const Calendar: React.FC<{
 
     useEffect(() => {
         const tmp: {title: string, date: string, color: string}[] = []
-        const ci: {[key: number]: string} = {1: '#95bfea', 2: '#d5d500', 3: '#ff8000', 4: '#6a23b1'}
+        const ci: {[key: number]: string} = {1: '#95bfea', 2: '#d5d500', 3: '#ff8000', 4: '#9572b8'}
         const ct: {[key: number]: string} = {1: 'T07:00:00', 2: 'T12:00:00', 3: 'T16:00:00', 4: 'T20:00:00'}
         for(const day in menu) {
             for(const e of menu[day]) {

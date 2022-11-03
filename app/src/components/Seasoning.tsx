@@ -112,12 +112,16 @@ const Seasoning: React.FC<{ id: string, token: string, data: foodT[]}> = ({ id, 
 
     return (
         <Box sx={{ height: '80%', width: '50%', mx: '25px' }}>
-            <Typography variant="h4" component="div" sx={{ mb: '20px', textAlign: 'center', fontWeight: 'bold' }}>
-                調味料
-                <IconButton sx={{ bgcolor: 'white', boxShadow: 2 }} onClick={() => setNewFlag(true)}>
+            <Box sx={{display: 'flex', mx: '25px'}}>
+                <Typography variant="h4" component="div" sx={{ mb: '20px', fontWeight: 'bold' }}>
+                    調味料
+                </Typography>
+                
+                <Box sx={{flexGrow: 1}}/>
+                <IconButton sx={{ bgcolor: 'white', boxShadow: 2, flexGrow:0, width: '50px', height: '50px' }} onClick={() => setNewFlag(true)}>
                     <AddIcon />
                 </IconButton>
-            </Typography>
+            </Box>
 
             <Box sx={{ height: '80%', bgcolor: 'white', mx: '20px', boxShadow: 2, overflow: 'auto' }}>
                 {newFlag && <NewSeasoningCard key={'NewSeasoning'} addF={addF} setNewFlag={setNewFlag} />}

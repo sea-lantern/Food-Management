@@ -41,7 +41,7 @@ const IngredientCard: React.FC<{
                             onChange={e => updateF(index, name, e.target.value)}
                         />
                     </Box>
-                    <IconButton onClick={() => deleteF(index, name)}>
+                    <IconButton sx={{width: '40px', height: '40px'}} onClick={() => deleteF(index, name)}>
                         <DeleteIcon />
                     </IconButton>
                 </Stack>

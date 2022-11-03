@@ -1,7 +1,7 @@
 import React, { Dispatch, useRef } from 'react'
 import { Card, CardContent, Stack, styled, IconButton, TextField, Box } from '@mui/material'
 
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 const Pb0Card = styled(CardContent)({
@@ -21,8 +21,8 @@ const NewIngredientCard: React.FC<{
         <Card sx={{ borderRadius: "20px", boxShadow: 0, m: '10px', bgcolor: '#dcf8f8', pb: 0 }}>
             <Pb0Card sx={{ pb: 0 }}>
                 <Stack spacing={2} direction="row" alignItems="center" sx={{ display: 'flex' }}>
-                    <IconButton onClick={() => addF(nameRef.current?.value || '', amountRef.current?.value || '')}>
-                        <AddCircleOutlineIcon />
+                    <IconButton sx={{my: 'auto', width: '40px', height: '40px'}} onClick={() => addF(nameRef.current?.value || '', amountRef.current?.value || '')}>
+                        <CheckBoxIcon />
                     </IconButton>
                     <Box sx={{ flexGrow: 1 }}>
                         <TextField
@@ -40,7 +40,7 @@ const NewIngredientCard: React.FC<{
                             inputRef={amountRef}
                         />
                     </Box>
-                    <IconButton onClick={() => setNewFlag(false)}>
+                    <IconButton sx={{my: 'auto', width: '40px', height: '40px'}} onClick={() => setNewFlag(false)}>
                         <DeleteIcon />
                     </IconButton>
                 </Stack>
