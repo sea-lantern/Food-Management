@@ -36,6 +36,7 @@ const Calendar: React.FC<{
                 datesSet={(e) => {
                     let next = e.start
                     next.setDate(e.start.getDate()+8)
+                    next.setDate(1)
                     changeDate(next)
                 }}
                 events={events}
