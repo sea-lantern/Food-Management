@@ -83,7 +83,7 @@ const App: React.FC = () => {
 
             <Box sx={{mx: '25px', my: '50px', display: 'flex' }}>
                 <Calendar menu={menu} ym={String(year)+'-'+String(month).padStart(2, '0')} changeDate={changeDate} selectDate={selectDate} />
-                {day && <Menu menu={menu[day-1]} day={String(day)} />}
+                {day && <Menu id={id} token={token} menu={menu[day-1]} day={String(day)} />}
             </Box>
         </>
     )
